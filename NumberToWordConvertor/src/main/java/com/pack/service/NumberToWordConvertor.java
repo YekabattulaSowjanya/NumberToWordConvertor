@@ -1,46 +1,40 @@
 package com.pack.service;
 
 import com.pack.repository.*;
-import java.util.Scanner;
 
-public class NumberToWordConvertorImpl implements NumberToWordConvertorInterface {
 
-	public NumberToWordConvertorImpl() {
+public class NumberToWordConvertor implements NumberToWordConvertorInterface {
+	
 
-	}
+	UnitsAndTensArray array;
 
-	public NumberToWordConvertorImpl(UnitsAndTensArray array) {
+	public NumberToWordConvertor(UnitsAndTensArray array) {
 		this.array = array;
 
 	}
-	public NumberToWordConvertorImpl(NumberToWordConvertorInterface convert) {
-		// TODO Auto-generated constructor stub
-	}
-	UnitsAndTensArray array;
-	
 	
 	public String isConvertNumbertoWord(int number) {
-		// for minus numbers
-		
+	
+
 		if (number < 0) {
 			return "-" + isConvertNumbertoWord(-(number));
 		}
 		
-		
+		if (number < 10 ) { 
+			return array.digits[number]; 
+			}
 		if (number < 20 ) { 
-			return array.unitsArray[number]; 
+			return array.TEN_THROUGH_NINTEEN[(number % 10) +1]; 
 			}
 		 
-		 
-
 		if (number < 100) {
 
-			return array.tensArray[number / 10] + ((number % 10 != 0) ? " " : "") + array.unitsArray[number % 10];
-
+			return array.tensArray[number / 10] + ((number % 10 != 0) ? " " : "") + array.digits[number % 10];
+			
 		}
 		if (number < 1000) {
 
-			return array.unitsArray[number / 100] + " Hundred" + ((number % 100 != 0) ? " " : "")
+			return array.digits[number / 100] + " Hundred" + ((number % 100 != 0) ? " " : "")
 					+ isConvertNumbertoWord(number % 100);
 
 		}
@@ -60,5 +54,5 @@ public class NumberToWordConvertorImpl implements NumberToWordConvertorInterface
 		return isConvertNumbertoWord(number / 1000000) + " Millions" + ((number % 1000000 != 0) ? " " : "")
 				+ isConvertNumbertoWord(number % 1000000);
 	}
+	}
 
-}
